@@ -17,19 +17,20 @@ class Sorter {
   }
 
   toArray() {
-    return this.array
+    return this.array;
   }
 
   sort(indices) {
-    indices.sort();
-    let arr = [];
-    for (let i = 0; i < indices.length; i++) {
-      arr.push(this.array[indices[i]]);
-    }
-    arr.sort(this.comparator);
-    for (let i = 0; i < indices.length; i++) {
-      this.array.splice(indices[i], 1, arr[i]);
-    }
+    let filterArr = this.array.filter((item, index) => {
+      return indices.includes(index);
+    });
+
+    filterArr.sort(this.comparator).reverse();
+
+    this.array = this.array.map((item, index) => {
+      return indices.includes(index) ? filterArr.pop() : item;
+    });
+
     return this.array;
   }
 
